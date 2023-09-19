@@ -1,6 +1,8 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 export const NavBar = () => {
+  const { movieId } = useParams();
+
   const navArr = [
     {
       src: '/',
@@ -15,11 +17,11 @@ export const NavBar = () => {
       title: 'MovieDetails',
     },
     {
-      src: '/cast',
+      src: `/movies/${movieId}/cast`,
       title: 'Cast',
     },
     {
-      src: '/reviews',
+      src: `/movies/${movieId}/reviews`,
       title: 'Reviews',
     },
   ];
@@ -34,7 +36,7 @@ export const NavBar = () => {
   );
 };
 const SideBar = styled.nav`
-  background-color: #d5edfd;
+  background-image: linear-gradient(-20deg, #e9defa 0%, #fbfcdb 100%);
   min-height: 100vh;
   border-right: 2px solid black;
   display: flex;
@@ -54,10 +56,10 @@ export const StyledLink = styled(NavLink)`
   color: black;
 
   &.active {
-    background-color: blue;
+    background-color: #602547;
     color: white;
   }
   &:hover:not(.active) {
-    background-color: lightblue;
+    background-color: #f392ed;
   }
 `;

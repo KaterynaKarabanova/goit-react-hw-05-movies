@@ -15,7 +15,7 @@ export const MovieElem = ({
         src={`https://image.tmdb.org/t/p/original${back}`}
         alt={title}
       />
-      <h3>{title}</h3>
+      <MovieTitle>{title}</MovieTitle>
       <p>{overview}</p>
       <p>Release Date: {release_date}</p>
       <p>Rating: {vote_average}</p>
@@ -24,9 +24,18 @@ export const MovieElem = ({
 };
 
 const MovieImg = styled.img`
-  width: 500px;
+  width: 100%;
 `;
 
 const MovieItem = styled(Link)`
-  max-width: 550px;
+  max-width: 570px;
+  background-image: linear-gradient(-225deg, #e3fdf5 0%, #ffe6fa 100%);
+  border-radius: 15px;
+  text-decoration: none;
+  padding: 15px 20px;
+  color: black;
+`;
+const MovieTitle = styled.h3`
+  color: linear-gradient(60deg, #29323c 0%, #485563 100%);
+  font-size: 35px;
 `;

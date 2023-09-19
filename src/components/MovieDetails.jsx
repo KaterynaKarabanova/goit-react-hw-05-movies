@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, Outlet, useParams } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
+import { HomeTitle } from './Home';
 export const MovieDetails = () => {
   const { movieId } = useParams();
   const [details, setDetails] = useState({});
@@ -21,8 +22,8 @@ export const MovieDetails = () => {
   }, [movieId]);
   console.log(details);
   return (
-    <div>
-      <h1>MovieDetails{movieId}</h1>
+    <DetailWrapper>
+      <HomeTitle>Movie Details</HomeTitle>
 
       <DetailDiv>
         <Detailimg
@@ -30,22 +31,48 @@ export const MovieDetails = () => {
           alt={details.title}
         />
         <div>
-          <h3>{details.title}</h3>
-          <p>{details.overview}</p>
+          <DetailTitle>{details.title}</DetailTitle>
+          <DetailText>{details.overview}</DetailText>
           <p>Release Date: {details.release_date}</p>
           <p>Rating: {details.vote_average}</p>
           <p>Budget:{details.budget}$</p>
           <p>Tagline:{details.tagline}</p>
         </div>
       </DetailDiv>
-      <Link to="cast">Cast</Link>
-      <Link to="reviews">Reviews</Link>
-    </div>
+      <DetailLink to="cast">Cast</DetailLink>
+      <DetailLink to="reviews">Reviews</DetailLink>
+      <Outlet />
+    </DetailWrapper>
   );
 };
+const DetailWrapper = styled.div`
+  padding: 10px 30px;
+`;
 const DetailDiv = styled.div`
   display: flex;
+  gap: 40px;
+  width: fit-content;
+  background-image: linear-gradient(-225deg, #e3fdf5 0%, #ffe6fa 100%);
+  padding: 10px 40px 40px 10px;
+  border-radius: 15px;
+  margin-bottom: 20px;
 `;
 const Detailimg = styled.img`
-  width: 800px;
+  width: 1000px;
+`;
+const DetailTitle = styled.h3`
+  color: black;
+  font-size: 35px;
+`;
+const DetailText = styled.p`
+  color: black;
+  font-size: 25px;
+  max-width: 800px;
+`;
+const DetailLink = styled(Link)`
+  text-decoration: none;
+  font-size: 40px;
+  font-weight: 500;
+  color: azure;
+  margin-right: 50px;
 `;

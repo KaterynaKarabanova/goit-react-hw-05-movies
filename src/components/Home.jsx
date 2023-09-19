@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { MovieElem } from './MovieElem';
+
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 export const Home = () => {
   axios.defaults.baseURL = 'https://api.themoviedb.org/3/';
   const API_KEY = '30f1a34785d80940e65d6f0a855b573d';
@@ -25,29 +26,39 @@ export const Home = () => {
 
   return (
     <div>
-      <HomeTitle>The most popular films</HomeTitle>
+      <HomeTitle>Trending today</HomeTitle>
       <Homelist>
         {trendingMovies.map(el => (
-          <MovieElem
-            key={el.id} // Remember to add a unique key for each element in a list
-            id={el.id}
-            back={el.backdrop_path}
-            title={el.title}
-            overview={el.overview}
-            release_date={el.release_date}
-            vote_average={el.vote_average}
-          />
+          <HomeItem key={el.id} to={`/movies/${el.id}`}>
+            {el.title}
+          </HomeItem>
         ))}
       </Homelist>
     </div>
   );
 };
-export const Homelist = styled.ul`
+const Homelist = styled.div`
   display: flex;
-  row-gap: 20px;
-  column-gap: 40px;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 10px;
 `;
-const HomeTitle = styled.h1`
-  display: inline;
+export const HomeTitle = styled.h1`
+  text-decoration: none;
+  font-size: 50px;
+  font-weight: 700;
+  color: azure;
+  margin-top: 10px;
+  margin-bottom: 20px;
+`;
+const HomeItem = styled(Link)`
+  display: flex;
+  gap: 30px;
+  height: 60px;
+  color: #efe7ee;
+  background-image: linear-gradient(to top, #c79081 0%, #dfa579 100%);
+  border-radius: 15px;
+  text-decoration: none;
+  padding: 15px 20px;
+  font-size: 50px;
+  font-weight: 700;
 `;

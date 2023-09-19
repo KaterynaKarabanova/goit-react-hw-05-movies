@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { MovieElem } from './MovieElem';
-
-import { Homelist } from '../components/Home';
+import styled from 'styled-components';
+import { HomeTitle } from './Home';
 export const Movies = () => {
   const [filter, setFilter] = useState('');
   console.log(filter);
@@ -19,13 +19,13 @@ export const Movies = () => {
   };
   return (
     <div>
-      <h1>Movies</h1>
-      <h2>Find a movie by name</h2>
-      <input type="text" onChange={e => setFilter(e.target.value)} />
-      <button type="button" onClick={() => getMoviesByName(filter)}>
+      <HomeTitle>Movies</HomeTitle>
+      <HomeTitle>Find a movie by name</HomeTitle>
+      <MovieInput type="text" onChange={e => setFilter(e.target.value)} />
+      <MovieBtn type="button" onClick={() => getMoviesByName(filter)}>
         Search
-      </button>
-      <Homelist>
+      </MovieBtn>
+      <MovieList>
         {filteredMovies.map(el => (
           <MovieElem
             key={el.id}
@@ -37,8 +37,33 @@ export const Movies = () => {
             vote_average={el.vote_average}
           />
         ))}
-      </Homelist>
+      </MovieList>
     </div>
   );
 };
-// search/movie?query=sun&page=1
+const MovieList = styled.ul`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 60px;
+  grid-auto-rows: minmax(60px, auto);
+  margin: 0;
+  padding: 0;
+  margin-top: 20px;
+`;
+const MovieInput = styled.input`
+  border-radius: 15px;
+  width: 400px;
+  height: 30px;
+  padding: 5px 10px;
+  font-size: 20px;
+`;
+const MovieBtn = styled.button`
+  border-radius: 15px;
+  background-color: #faaca8;
+  background-image: linear-gradient(19deg, #faaca8 0%, #ddd6f3 100%);
+  height: 40px;
+  padding: 5px 10px;
+  font-size: 20px;
+  color: azure;
+  font-weight: 600;
+`;
