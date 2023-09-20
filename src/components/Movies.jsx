@@ -4,7 +4,7 @@ import { MovieElem } from './MovieElem';
 import styled from 'styled-components';
 import { HomeTitle } from './Home';
 import { useSearchParams } from 'react-router-dom';
-export const Movies = () => {
+const Movies = () => {
   const [filter, setFilter] = useState('');
   const [searchParams, setSearchParams] = useSearchParams();
   const [filteredMovies, setFilteredMovies] = useState([]);
@@ -68,6 +68,7 @@ export const Movies = () => {
     </div>
   );
 };
+export default Movies;
 const MovieList = styled.ul`
   display: grid;
   grid-template-columns: repeat(3, 1fr);

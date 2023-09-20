@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-export const Cast = () => {
+const CastData = () => {
   const { movieId } = useParams();
   const [cast, setCast] = useState([]);
 
@@ -39,6 +39,7 @@ export const Cast = () => {
     </CastList>
   );
 };
+export default CastData;
 const CastList = styled.ul`
   display: grid;
   grid-template-columns: repeat(5, 1fr);

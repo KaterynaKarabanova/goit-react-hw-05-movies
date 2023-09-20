@@ -1,10 +1,10 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, Suspense } from 'react';
 import { Link, Outlet, useParams } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 import { HomeTitle } from './Home';
 import { useLocation } from 'react-router-dom';
-export const MovieDetails = () => {
+const MovieDetails = () => {
   const { movieId } = useParams();
   const [details, setDetails] = useState({});
   const location = useLocation();
@@ -48,10 +48,13 @@ export const MovieDetails = () => {
       </DetailDiv>
       <DetailLink to="cast">Cast</DetailLink>
       <DetailLink to="reviews">Reviews</DetailLink>
-      <Outlet />
+      <Suspense fallback={<div>Loading...</div>}>
+        <Outlet />
+      </Suspense>
     </DetailWrapper>
   );
 };
+export default MovieDetails;
 const DetailWrapper = styled.div`
   padding: 10px 30px;
 `;

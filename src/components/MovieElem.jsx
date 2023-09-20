@@ -17,7 +17,7 @@ export const MovieElem = ({
         src={
           back
             ? `https://image.tmdb.org/t/p/original${back}`
-            : 'https://www.montereyupperhutt.co.nz/template_1/img/default-movie-landscape.jpg'
+            : 'https://img.freepik.com/free-vector/abstract-grunge-style-coming-soon-with-black-splatter_1017-26690.jpg?q=10&h=200'
         }
         alt={title}
       />
@@ -31,6 +31,7 @@ export const MovieElem = ({
 
 const MovieImg = styled.img`
   width: 100%;
+  height: 300px;
 `;
 
 const MovieItem = styled(Link)`

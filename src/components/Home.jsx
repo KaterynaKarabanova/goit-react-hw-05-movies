@@ -3,7 +3,7 @@ import axios from 'axios';
 
 import styled from 'styled-components';
 import { Link, useLocation } from 'react-router-dom';
-export const Home = () => {
+const Home = () => {
   axios.defaults.baseURL = 'https://api.themoviedb.org/3/';
   const API_KEY = '30f1a34785d80940e65d6f0a855b573d';
 
@@ -41,6 +41,7 @@ export const Home = () => {
     </div>
   );
 };
+export default Home;
 const Homelist = styled.div`
   display: flex;
   flex-direction: column;

@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
-export const Reviews = () => {
+const Reviews = () => {
   const { movieId } = useParams();
   const [reviews, setReviews] = useState([]);
 
@@ -35,6 +35,7 @@ export const Reviews = () => {
     </ReviewsList>
   );
 };
+export default Reviews;
 const ReviewsList = styled.ul`
   display: flex;
   flex-direction: column;
