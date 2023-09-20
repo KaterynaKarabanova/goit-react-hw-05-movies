@@ -20,13 +20,16 @@ export const Cast = () => {
   useEffect(() => {
     getCastMovie(movieId);
   }, [movieId]);
-  console.log(cast);
   return (
     <CastList>
       {cast.map(el => (
         <DetailItem key={el.id}>
           <DetailImg
-            src={`https://image.tmdb.org/t/p/original${el.profile_path}`}
+            src={
+              el.profile_path
+                ? `https://image.tmdb.org/t/p/original${el.profile_path}`
+                : 'https://t4.ftcdn.net/jpg/04/10/43/77/360_F_410437733_hdq4Q3QOH9uwh0mcqAhRFzOKfrCR24Ta.jpg'
+            }
             alt=""
           />
           <h2>{el.name}</h2>

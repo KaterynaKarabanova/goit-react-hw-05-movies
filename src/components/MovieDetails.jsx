@@ -1,11 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link, Outlet, useParams } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 import { HomeTitle } from './Home';
+import { useLocation } from 'react-router-dom';
 export const MovieDetails = () => {
   const { movieId } = useParams();
   const [details, setDetails] = useState({});
+  const location = useLocation();
+  const goDackRef = useRef(location.state?.from || '');
   const getMoieById = async id => {
     try {
       const { data } = await axios.get(
@@ -20,14 +23,18 @@ export const MovieDetails = () => {
   useEffect(() => {
     getMoieById(movieId);
   }, [movieId]);
-  console.log(details);
   return (
     <DetailWrapper>
       <HomeTitle>Movie Details</HomeTitle>
+      <DetailLink to={goDackRef.current || '/movies'}>Go back</DetailLink>
 
       <DetailDiv>
         <Detailimg
-          src={`https://image.tmdb.org/t/p/original${details.backdrop_path}`}
+          src={
+            details.backdrop_path
+              ? `https://image.tmdb.org/t/p/original${details.backdrop_path}`
+              : 'https://www.montereyupperhutt.co.nz/template_1/img/default-movie-landscape.jpg'
+          }
           alt={details.title}
         />
         <div>
@@ -36,7 +43,7 @@ export const MovieDetails = () => {
           <p>Release Date: {details.release_date}</p>
           <p>Rating: {details.vote_average}</p>
           <p>Budget:{details.budget}$</p>
-          <p>Tagline:{details.tagline}</p>
+          {details.tagline && <p>Tagline:{details.tagline}</p>}
         </div>
       </DetailDiv>
       <DetailLink to="cast">Cast</DetailLink>

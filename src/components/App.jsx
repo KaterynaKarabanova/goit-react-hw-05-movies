@@ -6,6 +6,7 @@ import { MovieDetails } from './MovieDetails';
 import { Reviews } from './Reviews';
 import { Cast } from './Сast';
 import styled from 'styled-components';
+
 export const App = () => {
   return (
     <AppWrap>

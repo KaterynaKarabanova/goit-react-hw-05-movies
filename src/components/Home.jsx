@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 export const Home = () => {
   axios.defaults.baseURL = 'https://api.themoviedb.org/3/';
   const API_KEY = '30f1a34785d80940e65d6f0a855b573d';
@@ -23,13 +23,17 @@ export const Home = () => {
   useEffect(() => {
     getTrendingMovies();
   }, []); // Fetch data when the component mounts
-
+  const location = useLocation();
   return (
     <div>
       <HomeTitle>Trending today</HomeTitle>
       <Homelist>
         {trendingMovies.map(el => (
-          <HomeItem key={el.id} to={`/movies/${el.id}`}>
+          <HomeItem
+            key={el.id}
+            to={`/movies/${el.id}`}
+            state={{ from: location }}
+          >
             {el.title}
           </HomeItem>
         ))}

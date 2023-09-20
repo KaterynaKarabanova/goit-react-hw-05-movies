@@ -1,18 +1,24 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-
+import { useLocation } from 'react-router-dom';
 export const MovieElem = ({
-  back = 'https://www.montereyupperhutt.co.nz/template_1/img/default-movie-landscape.jpg',
+  back,
   title,
   overview,
   release_date,
   vote_average,
   id,
 }) => {
+  const location = useLocation();
+
   return (
-    <MovieItem to={`/movies/${id}`}>
+    <MovieItem to={`/movies/${id}`} state={{ from: location }}>
       <MovieImg
-        src={`https://image.tmdb.org/t/p/original${back}`}
+        src={
+          back
+            ? `https://image.tmdb.org/t/p/original${back}`
+            : 'https://www.montereyupperhutt.co.nz/template_1/img/default-movie-landscape.jpg'
+        }
         alt={title}
       />
       <MovieTitle>{title}</MovieTitle>

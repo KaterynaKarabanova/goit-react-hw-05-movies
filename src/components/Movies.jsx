@@ -1,11 +1,12 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { MovieElem } from './MovieElem';
 import styled from 'styled-components';
 import { HomeTitle } from './Home';
+import { useSearchParams } from 'react-router-dom';
 export const Movies = () => {
   const [filter, setFilter] = useState('');
-  console.log(filter);
+  const [searchParams, setSearchParams] = useSearchParams();
   const [filteredMovies, setFilteredMovies] = useState([]);
   const getMoviesByName = async (e, value) => {
     e.preventDefault();
@@ -14,10 +15,35 @@ export const Movies = () => {
         `https://api.themoviedb.org/3/search/movie?api_key=30f1a34785d80940e65d6f0a855b573d&query=${value}&language=en-US&page=1&include_adult=false`
       );
       setFilteredMovies(data.results);
+      if (filter.length) {
+        setSearchParams({ query: filter });
+      }
     } catch (error) {
       console.error('Error fetching trending movies:', error.message);
     }
   };
+  const getMovieByQuery = async query => {
+    const { data } = await axios.get(
+      `https://api.themoviedb.org/3/search/movie?api_key=30f1a34785d80940e65d6f0a855b573d&query=${query}&language=en-US&page=1&include_adult=false`
+    );
+
+    return data.results;
+  };
+  useEffect(() => {
+    const currentQuery = searchParams.get('query');
+    if (!currentQuery) return;
+
+    const fetchMovieByQuery = async () => {
+      try {
+        const movieByQuery = await getMovieByQuery(currentQuery);
+        setFilteredMovies(movieByQuery);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    fetchMovieByQuery();
+  }, [searchParams]);
+
   return (
     <div>
       <HomeTitle>Movies</HomeTitle>
