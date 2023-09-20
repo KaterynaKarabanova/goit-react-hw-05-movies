@@ -7,7 +7,8 @@ export const Movies = () => {
   const [filter, setFilter] = useState('');
   console.log(filter);
   const [filteredMovies, setFilteredMovies] = useState([]);
-  const getMoviesByName = async value => {
+  const getMoviesByName = async (e, value) => {
+    e.preventDefault();
     try {
       const { data } = await axios.get(
         `https://api.themoviedb.org/3/search/movie?api_key=30f1a34785d80940e65d6f0a855b573d&query=${value}&language=en-US&page=1&include_adult=false`
@@ -21,10 +22,10 @@ export const Movies = () => {
     <div>
       <HomeTitle>Movies</HomeTitle>
       <HomeTitle>Find a movie by name</HomeTitle>
-      <MovieInput type="text" onChange={e => setFilter(e.target.value)} />
-      <MovieBtn type="button" onClick={() => getMoviesByName(filter)}>
-        Search
-      </MovieBtn>
+      <form onSubmit={e => getMoviesByName(e, filter)}>
+        <MovieInput type="text" onChange={e => setFilter(e.target.value)} />
+        <MovieBtn type="submit">Search</MovieBtn>
+      </form>
       <MovieList>
         {filteredMovies.map(el => (
           <MovieElem
