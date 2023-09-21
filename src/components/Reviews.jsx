@@ -1,26 +1,16 @@
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
+
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
+import { getReviewsMovie } from '../servises/getData';
 const Reviews = () => {
   const { movieId } = useParams();
   const [reviews, setReviews] = useState([]);
 
-  const getReviewsMovie = async id => {
-    try {
-      const { data } = await axios.get(
-        `https://api.themoviedb.org/3/movie/${id}/reviews?api_key=30f1a34785d80940e65d6f0a855b573d&language=en-US`
-      );
-
-      setReviews(data.results);
-    } catch (error) {
-      console.error('Error fetching trending movies:', error.message);
-    }
-  };
   useEffect(() => {
-    getReviewsMovie(movieId);
+    getReviewsMovie(movieId).then(setReviews);
   }, [movieId]);
-  console.log(reviews);
+
   return (
     <ReviewsList>
       {reviews.map(el => (

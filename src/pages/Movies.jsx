@@ -1,34 +1,23 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
-import { MovieElem } from './MovieElem';
+import { MovieElem } from '../components/MovieElem';
 import styled from 'styled-components';
 import { HomeTitle } from './Home';
+import { getMoviesByName } from '../servises/getData';
+import { getMovieByQuery } from '../servises/getData';
 import { useSearchParams } from 'react-router-dom';
 const Movies = () => {
   const [filter, setFilter] = useState('');
   const [searchParams, setSearchParams] = useSearchParams();
   const [filteredMovies, setFilteredMovies] = useState([]);
-  const getMoviesByName = async (e, value) => {
+
+  const onSubmit = async (e, value) => {
     e.preventDefault();
-    try {
-      const { data } = await axios.get(
-        `https://api.themoviedb.org/3/search/movie?api_key=30f1a34785d80940e65d6f0a855b573d&query=${value}&language=en-US&page=1&include_adult=false`
-      );
-      setFilteredMovies(data.results);
-      if (filter.length) {
-        setSearchParams({ query: filter });
-      }
-    } catch (error) {
-      console.error('Error fetching trending movies:', error.message);
+    getMoviesByName(value).then(setFilteredMovies);
+    if (filter.length) {
+      setSearchParams({ query: filter });
     }
   };
-  const getMovieByQuery = async query => {
-    const { data } = await axios.get(
-      `https://api.themoviedb.org/3/search/movie?api_key=30f1a34785d80940e65d6f0a855b573d&query=${query}&language=en-US&page=1&include_adult=false`
-    );
 
-    return data.results;
-  };
   useEffect(() => {
     const currentQuery = searchParams.get('query');
     if (!currentQuery) return;
@@ -48,7 +37,7 @@ const Movies = () => {
     <div>
       <HomeTitle>Movies</HomeTitle>
       <HomeTitle>Find a movie by name</HomeTitle>
-      <form onSubmit={e => getMoviesByName(e, filter)}>
+      <form onSubmit={e => onSubmit(e, filter)}>
         <MovieInput type="text" onChange={e => setFilter(e.target.value)} />
         <MovieBtn type="submit">Search</MovieBtn>
       </form>

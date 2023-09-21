@@ -1,31 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-
+import { getTrendingMovies } from '../servises/getData';
 import styled from 'styled-components';
 import { Link, useLocation } from 'react-router-dom';
 const Home = () => {
-  axios.defaults.baseURL = 'https://api.themoviedb.org/3/';
-  const API_KEY = '30f1a34785d80940e65d6f0a855b573d';
-
   const [trendingMovies, setTrendingMovies] = useState([]);
-
-  const getTrendingMovies = async () => {
-    try {
-      const { data } = await axios.get(
-        `trending/movie/week?api_key=${API_KEY}`
-      );
-      setTrendingMovies(data.results);
-    } catch (error) {
-      console.error('Error fetching trending movies:', error.message);
-    }
-  };
-
   useEffect(() => {
-    getTrendingMovies();
-  }, []); // Fetch data when the component mounts
+    getTrendingMovies().then(setTrendingMovies);
+  }, []);
   const location = useLocation();
   return (
     <div>
+      <MainDev>
+        <MainTitle>Choose a movie</MainTitle>
+        <img
+          src="https://www.pngmart.com/files/5/Movie-PNG-Image.png"
+          alt="hh"
+        />
+      </MainDev>
       <HomeTitle>Trending today</HomeTitle>
       <Homelist>
         {trendingMovies.map(el => (
@@ -47,13 +38,36 @@ const Homelist = styled.div`
   flex-direction: column;
   gap: 10px;
 `;
-export const HomeTitle = styled.h1`
+export const HomeTitle = styled.h2`
   text-decoration: none;
   font-size: 50px;
   font-weight: 700;
   color: azure;
-  margin-top: 10px;
+  margin-top: 40px;
   margin-bottom: 20px;
+`;
+const MainTitle = styled.h1`
+  text-decoration: none;
+  font-size: 160px;
+  text-align: center;
+  max-width: 650px;
+  text-transform: uppercase;
+  background: linear-gradient(to right, #ffffff 0%, #fbffb1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+  color: azure;
+  margin-top: 40px;
+  margin-bottom: 20px;
+`;
+const MainDev = styled.div`
+  display: flex;
+  gap: 80px;
+  justify-content: center;
+  background-image: linear-gradient(to right, #434343 0%, black 100%);
+  background-size: 20%;
+  background-repeat: repeat;
+  border: 15px dashed #ffffff;
 `;
 const HomeItem = styled(Link)`
   display: flex;

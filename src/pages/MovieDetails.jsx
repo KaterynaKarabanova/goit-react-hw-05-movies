@@ -1,33 +1,21 @@
 import { useState, useEffect, useRef, Suspense } from 'react';
 import { Link, Outlet, useParams } from 'react-router-dom';
-import axios from 'axios';
 import styled from 'styled-components';
 import { HomeTitle } from './Home';
 import { useLocation } from 'react-router-dom';
+import { getMoieById } from '../servises/getData';
 const MovieDetails = () => {
   const { movieId } = useParams();
   const [details, setDetails] = useState({});
   const location = useLocation();
   const goDackRef = useRef(location.state?.from || '');
-  const getMoieById = async id => {
-    try {
-      const { data } = await axios.get(
-        `https://api.themoviedb.org/3/movie/${id}?api_key=30f1a34785d80940e65d6f0a855b573d&language=en-US`
-      );
-
-      setDetails(data);
-    } catch (error) {
-      console.error('Error fetching trending movies:', error.message);
-    }
-  };
   useEffect(() => {
-    getMoieById(movieId);
+    getMoieById(movieId).then(setDetails);
   }, [movieId]);
   return (
     <DetailWrapper>
+      <GoBackLink to={goDackRef.current || '/movies'}>Go back</GoBackLink>
       <HomeTitle>Movie Details</HomeTitle>
-      <DetailLink to={goDackRef.current || '/movies'}>Go back</DetailLink>
-
       <DetailDiv>
         <Detailimg
           src={
@@ -40,10 +28,21 @@ const MovieDetails = () => {
         <div>
           <DetailTitle>{details.title}</DetailTitle>
           <DetailText>{details.overview}</DetailText>
-          <p>Release Date: {details.release_date}</p>
-          <p>Rating: {details.vote_average}</p>
-          <p>Budget:{details.budget}$</p>
-          {details.tagline && <p>Tagline:{details.tagline}</p>}
+          <DetailText>
+            <DetailSpan>Release Date:</DetailSpan> {details.release_date}
+          </DetailText>
+          <DetailText>
+            <DetailSpan>Rating:</DetailSpan> {details.vote_average}
+          </DetailText>
+          <DetailText>
+            <DetailSpan>Budget:</DetailSpan>
+            {details.budget}$
+          </DetailText>
+          {details.tagline && (
+            <DetailText>
+              <DetailSpan>Tagline:</DetailSpan>"{details.tagline}"
+            </DetailText>
+          )}
         </div>
       </DetailDiv>
       <DetailLink to="cast">Cast</DetailLink>
@@ -79,10 +78,37 @@ const DetailText = styled.p`
   font-size: 25px;
   max-width: 800px;
 `;
+const DetailSpan = styled.span`
+  color: black;
+  font-size: 25px;
+  font-weight: 600;
+  max-width: 800px;
+  margin-right: 10px;
+`;
 const DetailLink = styled(Link)`
   text-decoration: none;
   font-size: 40px;
   font-weight: 500;
   color: azure;
   margin-right: 50px;
+`;
+const GoBackLink = styled(Link)`
+  text-decoration: none;
+  font-size: 30px;
+  font-weight: 500;
+
+  background-image: linear-gradient(
+    to right,
+    #e55d87 0%,
+    #5fc3e4 51%,
+    #e55d87 100%
+  );
+  padding: 15px 45px;
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;
+  box-shadow: 0 0 20px #eee;
+  border-radius: 10px;
 `;

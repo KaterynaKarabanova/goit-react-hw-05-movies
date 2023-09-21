@@ -3,9 +3,9 @@ import styled from 'styled-components';
 import { lazy } from 'react';
 import { Layout } from './Layout';
 
-const Home = lazy(() => import('./Home'));
-const Movies = lazy(() => import('./Movies'));
-const MovieDetails = lazy(() => import('./MovieDetails'));
+const Home = lazy(() => import('../pages/Home'));
+const Movies = lazy(() => import('../pages/Movies'));
+const MovieDetails = lazy(() => import('../pages/MovieDetails'));
 const Reviews = lazy(() => import('./Reviews'));
 const CastData = lazy(() => import('./CastData'));
 export const App = () => {
@@ -15,6 +15,7 @@ export const App = () => {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="movies" element={<Movies />} />
+          <Route path="*" element={<Home />} />
           <Route path="movies/:movieId" element={<MovieDetails />}>
             <Route path="cast" element={<CastData />} />
             <Route path="reviews" element={<Reviews />} />

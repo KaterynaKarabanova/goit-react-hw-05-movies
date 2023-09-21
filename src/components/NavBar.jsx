@@ -1,8 +1,6 @@
-import { NavLink, useParams } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 export const NavBar = () => {
-  const { movieId } = useParams();
-
   const navArr = [
     {
       src: '/',
@@ -11,18 +9,6 @@ export const NavBar = () => {
     {
       src: '/movies',
       title: 'Movies',
-    },
-    {
-      src: '/movies/:movieId',
-      title: 'MovieDetails',
-    },
-    {
-      src: `/movies/${movieId}/cast`,
-      title: 'Cast',
-    },
-    {
-      src: `/movies/${movieId}/reviews`,
-      title: 'Reviews',
     },
   ];
   return (
@@ -51,6 +37,8 @@ export const StyledLink = styled(NavLink)`
   align-items: center;
   gap: 10px;
   padding: 5px;
+  font-size: 20px;
+  font-weight: 500;
   border-radius: 4px;
   text-decoration: none;
   color: black;

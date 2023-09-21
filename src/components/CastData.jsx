@@ -1,24 +1,13 @@
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { getCastMovie } from '../servises/getData';
 const CastData = () => {
   const { movieId } = useParams();
   const [cast, setCast] = useState([]);
 
-  const getCastMovie = async id => {
-    try {
-      const { data } = await axios.get(
-        `https://api.themoviedb.org/3/movie/${id}/credits?api_key=30f1a34785d80940e65d6f0a855b573d&language=en-US`
-      );
-
-      setCast(data.cast);
-    } catch (error) {
-      console.error('Error fetching trending movies:', error.message);
-    }
-  };
   useEffect(() => {
-    getCastMovie(movieId);
+    getCastMovie(movieId).then(setCast);
   }, [movieId]);
   return (
     <CastList>
